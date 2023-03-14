@@ -5,32 +5,34 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/webpack:webpack",
+      "executor": "@nrwl/rspack:rspack",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
         "target": "node",
-        "compiler": "tsc",
         "outputPath": "dist/apps/mynestapp",
         "main": "apps/mynestapp/src/main.ts",
         "tsConfig": "apps/mynestapp/tsconfig.app.json",
-        "assets": ["apps/mynestapp/src/assets"],
-        "isolatedConfig": true,
-        "webpackConfig": "apps/mynestapp/webpack.config.js"
+        "rspackConfig": "apps/mynestapp/rspack.config.js",
+        "assets": [
+          "apps/mynestapp/src/assets"
+        ]
       },
       "configurations": {
+        "development": {},
         "production": {
           "optimization": true,
-          "extractLicenses": true,
-          "inspect": false
+          "sourceMap": false
         }
       }
     },
     "serve": {
-      "executor": "@nrwl/js:node",
+      "executor": "@nrwl/rspack:dev-server",
       "options": {
-        "buildTarget": "mynestapp:build"
+        "buildTarget": "mynestapp:build:development"
       },
       "configurations": {
+        "development": {},
         "production": {
           "buildTarget": "mynestapp:build:production"
         }
